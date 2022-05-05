@@ -1,1 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
+.modal_custom_lg {
+    max-width: 90% !important;
+}

@@ -1,15 +1,84 @@
-<input type="file" (change)="fileChangeEvent($event)" />
-<div class="row">
-    <div class="col-6">
-        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-            [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="4 / 3" [resizeToWidth]="256"
-            [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false" [canvasRotation]="canvasRotation"
-            [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png"
-            (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)"
-            (loadImageFailed)="loadImageFailed()">
-        </image-cropper>
+<input type="file" (change)="fileChangeEvent(popup, $event)" #fileInput />
+
+<ng-template #popup>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">First modal</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
     </div>
-    <div class="col-6">
-        <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+    <div class="modal-body">
+        <ng-container>
+            <h1>Header</h1>
+            <div class="row">
+                <div class="col-6">
+                    <h2>Before Crop</h2>
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="128 / 61" [resizeToWidth]="1920" [cropperMinWidth]="1920" [onlyScaleDown]="true" [roundCropper]="false"
+                        [style.display]="showCropper ? null : 'none'" format="png" [alignImage]="'center'"
+                        (imageCropped)="imageCropped($event, 'header')" (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()">
+                    </image-cropper>
+                </div>
+                <div class="col-6" *ngIf="croppedImage">
+                    <h2>After Crop</h2>
+                    <img [src]="croppedImage" width="100%" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+                </div>
+            </div>
+            <h1>Footer</h1>
+            <div class="row">
+                <div class="col-6">
+                    <h2>Before Crop</h2>
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="24 / 5" [resizeToWidth]="1920" [onlyScaleDown]="true" [roundCropper]="false"
+                        [style.display]="showCropper ? null : 'none'" format="png" [alignImage]="'center'"
+                        (imageCropped)="imageCropped($event, 'footer')" (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()">
+                    </image-cropper>
+                </div>
+                <div class="col-6" *ngIf="footerCroppedImage">
+                    <h2>After Crop</h2>
+                    <img [src]="footerCroppedImage" width="100%"
+                        [style.border]="footerCroppedImage ? '1px solid black' : 'none'" />
+                </div>
+            </div>
+            <h1>Profile Pic</h1>
+            <div class="row">
+                <div class="col-6">
+                    <h2>Before Crop</h2>
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="1 / 1" [resizeToWidth]="250" [onlyScaleDown]="true" [roundCropper]="false"
+                        [style.display]="showCropper ? null : 'none'" format="png" [alignImage]="'center'"
+                        (imageCropped)="imageCropped($event, 'profile')" (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()">
+                    </image-cropper>
+                </div>
+                <div class="col-6" *ngIf="profileCroppedImage">
+                    <h2>After Crop</h2>
+                    <img [src]="profileCroppedImage" width="100%"
+                        [style.border]="profileCroppedImage ? '1px solid black' : 'none'" />
+                </div>
+            </div>
+            <h1>Right Clip</h1>
+            <div class="row">
+                <div class="col-6">
+                    <h2>Befotre Crop</h2>
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="1 / 1" [resizeToWidth]="1000" [onlyScaleDown]="true" [roundCropper]="false"
+                        [style.display]="showCropper ? null : 'none'" format="png" [alignImage]="'center'"
+                        (imageCropped)="imageCropped($event, 'right')" (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()">
+                    </image-cropper>
+                </div>
+                <div class="col-6" *ngIf="rightCroppedImage">
+                    <h2>After Crop</h2>
+                    <img [src]="rightCroppedImage" width="100%"
+                        [style.border]="rightCroppedImage ? '1px solid black' : 'none'" />
+                </div>
+            </div>
+        </ng-container>
     </div>
-</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="closeModal()">Close</button>
+    </div>
+</ng-template>
